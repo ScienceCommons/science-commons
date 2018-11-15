@@ -1,10 +1,6 @@
-CurateScience.org
-=================
-<i>Facilitating and incentivizing the independent verification of published findings.</i>
+Curate Science
+==============
 
-This repository hosts the codebase for the Alpha announcement webpage for http://www.CurateScience.org, an online platform to facilitate the independent verification and meta-analysis of published findings with the goal of accelerating cumulative knowledge development. The platform will benefit academic and industry researchers, educators, laypeople, educators, and public policy makers. 
+<i>Nutritional Labels for Science</i>
 
-For more details (prototype screenshots and features), see https://dl.dropboxusercontent.com/u/227724/Science-Commons%20(Dec%2017%2C%202013%20Version).pdf
-
-Funding opportunities being considered:
-https://docs.google.com/spreadsheet/ccc?key=0ApAs97wRypnadDhfcS1yd3VYOG1Fdm9rMWdUUURWWWc&usp=drive_web#gid=0
+<p>This repository contains the code of <strong><a href="http://CurateScience.org">Curate Science</a></strong>, a community  platform to <i><u>curate</u></i> and <i><u>track</u></i> the transparency and replications of published scientific findings (for full details of our approach, see <a href="https://osf.io/preprints/psyarxiv/uwmr8" target="_blank">our white paper</a>).</p>

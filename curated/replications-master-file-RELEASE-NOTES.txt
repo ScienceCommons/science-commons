@@ -1,0 +1,41 @@
+﻿Curated Replications Searchable Table release NOTES [ended up presenting this info above the table and/or in ABOUT SECTION]
+***Version 4.6.1 (December 2017)***
+
+NOTES regarding "replication outcome" categories (**already out-of-date/obsolete, e.g., "imprecise" applied to any less precise rep even if signal detected):
+1. signal detected - consistent
+2a. signal detected - inconsistent (larger) (same direction, but larger)
+2b. signal detected - inconsistent (smaller) (same direction, but smaller)
+2c. signal detected - inconsistent (opposite) (opposite direction or pattern)
+3. no signal - consistent 
+4. no signal - inconsistent 
+
+1. replication ES 95% CI excludes 0 and includes original ES point estimate.
+2a & 2b. replication ES 95% CI excludes 0 but also excludes original ES point estimate (rep ES is LARGER or SMALLER [but same direction] than original ES point estimate).
+2c. replication ES 95% CI excludes 0 but effect direction (or pattern) opposite to original ES direction/pattern.
+3. replication ES 95% CI includes 0 but also includes original ES point estimate
+4. replication ES 95% CI includes 0 but excludes original ES point estimate 
+
+in cases where signal is NOT detected, if rep ES estimate is LESS precise than original [i.e., rep ES CI is wider than original] , then the "inconclusive" label is added to warn readers that such replication should *not* be interpreted on an individual basis (but rather needs to be interpreted meta-analytically)
+**if original ES CI not available, then "inconclusive" qualifier made based on sample size (i.e., if rep used smaller N than original, then "inconclusive" is added); 
+***if original N not available, then "inconclusive" qualifier cannot be made and is thus left out of interpretation;
+****if original ES not available, then "consistent" vs. "inconsistent" attribute cannot be made;
+
+[insert Figure 1 from LCCV (2017)]
+
+General notes:
+- +/- reflects 95% confidence intervals (CIs) (NOTE: certain effect sizes are asymmetrical, e.g., eta-squared or odds ratio [OR]);
+-N refers to total sample size (consistent with conventions in psychology; n refers to within-cell sample size;
+-NR = not reported and/or not calculatable (NR can also apply to sample size)
+-empty cells means that such study characteristic information doesn't apply to a replication *OR* that such info has not yet been curated;
+
+
+
+specific examples used to clarify whether we should use "imprecise" label for different replication result scenarios
+--------------------------------------------------------------------------------------------------------------------
+**concrete (consistent) example:
+	Boroditsky (2000) Study 1	d(N=56) = .63 ± .56	d(N=44) = .77 ± .66	Bonfiglio et al. (2016, Ashland) 	signal - consistent (imprecise)
+**concrete (inconsistent) example:
+	Ross & Wilson (2002) Study 2	d(N=357) = .21 ± .21	d(N=42) = -.76 ± .68	Capaldi et al. (2016, Carleton) 	signal - inconsistent, opposite (imprecise)
+	Ross & Wilson (2002) Study 2	d(N=357) = .21 ± .21	d(N=229) = .38 ± .26	Baranski et al. (2016, UCRiverside) 	signal - consistent (imprecise)
+
+
