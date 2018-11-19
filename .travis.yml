@@ -1,0 +1,8 @@
+deploy:
+  provider: gcs
+  access_key_id: GOOGWIX44DCCT2QU6UBCMHLZ
+  secret_access_key:
+    secure: agmUj9DW14XMqG6aaGubcotGff/PSOhHpDXUGYoPP0P0ZHHOVezC67p19dSfxpPTMu7w9UFIy8Poqx5y08D33Kh6LWgZCs8mnV32GNkf7G6zeA9T8u04cOZJ/abbAS0Y7XXwc/OSOV0Xd15UOkdyzsAqxASERpKtRfzQq2hX6Ug=
+  bucket: curatescience.org
+  skip_cleanup: true
+  acl: public-read
