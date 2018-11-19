@@ -1,3 +1,7 @@
+language: node_js
+node_js:
+- '0.11'
+script: node -v
 deploy:
   provider: gcs
   access_key_id: GOOGWIX44DCCT2QU6UBCMHLZ
