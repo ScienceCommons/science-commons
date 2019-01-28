@@ -101,7 +101,7 @@
         											  <div class='secondary-section-on-hover'>
           											  <div class='author-contributions minimizeAC'></div>
         											    <div class='competing-interests-info'><strong title='Competing commercial or financial interests.'>Competing interests</strong>: None to declare.</div>
-          											  <div class='funding-sources-info'><strong>Funding sources</strong>: European Commission (Marie-Curie grant, Project ID: 793669: EP LeBel, W Vanpaemel)</div>
+          											  <div class='funding-sources-info'><strong>Funding sources:</strong> European Commission (Marie-Curie grant, Project ID: 793669: EP LeBel, W Vanpaemel)</div>
           											  <div class='peer-review-info'><strong>Editor</strong>: <span style='color:#009933;'>R Carlsson</span>&nbsp;&nbsp;&nbsp;<strong>Reviewers</strong>: <span style='color:#009933;'>MB Nuijten; U Schimmack</span><div class='open-peer-review'>
       <a href='https://osf.io/dsn72/' target='_blank'><i class='fas fa-link'></i> Open peer review <i class='fas fa-external-link-alt'></i></a>
       </div></div>
@@ -223,7 +223,7 @@
         											  <div class='secondary-section-on-hover'>
           											  <div class='author-contributions minimizeAC'>Authors are listed in tiers according to their contributions. Within tiers, authors are listed in alphabetical order. H. Moshontz and C. R. Chartier oversaw the preparation of the original draft of the manuscript and its subsequent review and editing. Authors in the first tier (H. Moshontz through H. L. Urry) were central to drafting, reviewing, and editing the manuscript. Authors in the second tier (P. S. Forscher through E. D. Musser) contributed substantially to drafting, reviewing, and editing the manuscript. Authors in the third tier (J. Antfolk through J. Protzko) contributed to specific sections of the original draft of the manuscript and provided reviewing and editing. Authors in the fourth tier (B. Aczel through J. H. Zickfeld) contributed to reviewing and editing the manuscript. Authors in the fifth tier (J. D. Arnal through M. A. Silan) contributed to conceptualization of the project by drafting policy and procedural documents upon which the manuscript is built, and also helped review and edit the manuscript. G. Pfuhl created Figure 1, and J. Olsen created Figure 2. C. R. Chartier initiated the project and oversees all activities of the Psychological Science Accelerator.</div>
         											    <div class='competing-interests-info'><strong title='Competing commercial or financial interests.'>Competing interests</strong>: None to declare.</div>
-          											  <div class='funding-sources-info'><strong>Funding sources</strong>: H. IJzerman’s research is partly supported by the French National Research Agency in the framework of the “Investissements d’avenir” program (ANR-15-IDEX-02). E. D. Musser’s work is supported in part by the U.S. National Institute of Mental Health (Grant R03MH110812-02). S. Fiedler’s work is supported in part by the Gielen-Leyendecker Foundation. D. A. Forero is supported by research grants from Colciencias and Vicerrectoría de Ciencia, Tecnología e Innovación. This material is based on work that has been supported by the National Science Foundation Graduate Research Fellowship awarded to N. A. Coles and by a National Science Foundation grant (DGE-1445197) to S. M. Garrison. Any opinion, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation. T. Gill’s work is partially supported by the Canada Research Chairs Program (Social Sciences and Humanities Research Council of Canada). M. A. Vadillo’s work is supported by Comunidad de Madrid (Programa de Atracción de Talento Investigador, Grant 2016-T1/SOC-1395). E. Vergauwe’s work is supported in part by the Swiss National Science Foundation (Grant PZ00P1_154911). L. M. DeBruine’s work is partially supported by the European Research Council (Grant 647910, KINSHIP). A. M. Fernandez’s work is partially supported by Fondecyt (Grant 1181114). P. M. Isager’s work is partially supported by the Netherlands Organisation for Scientific Research (VIDI Grant 452-17-013).</div>
+          											  <div class='funding-sources-info minimizeFunding'>H. IJzerman’s research is partly supported by the French National Research Agency in the framework of the “Investissements d’avenir” program (ANR-15-IDEX-02). E. D. Musser’s work is supported in part by the U.S. National Institute of Mental Health (Grant R03MH110812-02). S. Fiedler’s work is supported in part by the Gielen-Leyendecker Foundation. D. A. Forero is supported by research grants from Colciencias and Vicerrectoría de Ciencia, Tecnología e Innovación. This material is based on work that has been supported by the National Science Foundation Graduate Research Fellowship awarded to N. A. Coles and by a National Science Foundation grant (DGE-1445197) to S. M. Garrison. Any opinion, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation. T. Gill’s work is partially supported by the Canada Research Chairs Program (Social Sciences and Humanities Research Council of Canada). M. A. Vadillo’s work is supported by Comunidad de Madrid (Programa de Atracción de Talento Investigador, Grant 2016-T1/SOC-1395). E. Vergauwe’s work is supported in part by the Swiss National Science Foundation (Grant PZ00P1_154911). L. M. DeBruine’s work is partially supported by the European Research Council (Grant 647910, KINSHIP). A. M. Fernandez’s work is partially supported by Fondecyt (Grant 1181114). P. M. Isager’s work is partially supported by the Netherlands Organisation for Scientific Research (VIDI Grant 452-17-013).</div>
           											  <div class='peer-review-info'><strong>Editor</strong>: <span style='color:#009933;'>DJ Simons</span></div>
           											</div>
         										</div>
@@ -1288,7 +1288,26 @@ Basic 4 (at submission)</a> <img src='../logos/author-logos/sprite-icons/disclos
 				'<strong>Author Contributions:</strong> '+t.slice(0,80)+'<span>... </span><a href="#" class="more">More</a>'+
 				'<span style="display:none;">'+ t.slice(80,t.length)+' <a href="#" class="less">Less</a></span>'
 			);
-			
+		}); 
+		$('a.more', minimized_elements).click(function(event){
+			event.preventDefault();
+			$(this).hide().prev().hide();
+			$(this).next().show();        
+		});
+		$('a.less', minimized_elements).click(function(event){
+			event.preventDefault();
+			$(this).parent().hide().prev().show().prev().show();    
+		});
+	});
+	jQuery(function(){
+		var minimized_elements = $('div.minimizeFunding');
+		minimized_elements.each(function(){    
+			var t = $(this).text();        
+			if(t.length < 80) return;
+			$(this).html(
+				'<strong>Funding sources:</strong> '+t.slice(0,80)+'<span>... </span><a href="#" class="more">More</a>'+
+				'<span style="display:none;">'+ t.slice(80,t.length)+' <a href="#" class="less">Less</a></span>'
+			);
 		}); 
 		$('a.more', minimized_elements).click(function(event){
 			event.preventDefault();
@@ -1316,16 +1335,17 @@ Basic 4 (at submission)</a> <img src='../logos/author-logos/sprite-icons/disclos
 <div class="footer-bottom" style="background-color:whitesmoke;padding-top:10px;max-width:1000px;margin:0 auto;">
 			
 			<div class="row">
-				<div class="col-sm-4 center" style="margin-top:30px;text-align:center;">
-						<span style="font-weight:bold;">Previous Funders</span>
-						<br>
-						<a  href="https://cos.io/"><img src="../logos/COS-logo.png" style="margin-top:15px;"></a> <a  href="http://www.bitss.org/"><img src="../logos/BITSS-logo.png" style="margin-left:30px;margin-top:15px;"></a>
-				</div>			
+						
 				<div class="col-sm-4 center" style="margin-top:30px;text-align:center;">
 					<span style="font-weight:bold;">Current Funders</span>
 						<br>
 						<a  href="https://cordis.europa.eu/project/rcn/215183_en.html"><img src="../logos/european-commission-icon.png" style="margin-top:15px;width:128px;"></a>
 				</div>
+				<div class="col-sm-4 center" style="margin-top:30px;text-align:center;">
+						<span style="font-weight:bold;">Previous Funders</span>
+						<br>
+						<a  href="https://cos.io/"><img src="../logos/COS-logo.png" style="margin-top:15px;"></a> <a  href="http://www.bitss.org/"><img src="../logos/BITSS-logo.png" style="margin-left:30px;margin-top:15px;"></a>
+				</div>	
 				<div class="col-sm-4 center" style="margin-top:30px;text-align:center;">
 					<span style="font-weight:bold;margin-bottom:15px;">Contact Details</span>
 						<p style="line-height:1.2em;margin-top:15px;">

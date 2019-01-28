@@ -561,8 +561,10 @@ a { text-decoration:none !important; }
 	margin-right:2px;
 	vertical-align:middle; }
 	.abstractText {opacity:1; }
+	.footer-bottom { max-width:300px !important;}
 }
 /* styles for small mobile browsers (iPhone5) */
 @media only screen and (max-width: 321px) {
 	.label { font-size:55%;}
+	.footer-bottom { max-width:300px !important;}
 }
