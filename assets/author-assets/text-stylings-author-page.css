@@ -25,8 +25,8 @@ a.kinda-link:hover { cursor: pointer; }
 	border-width:1px;
 	border-color:darkgrey;
 	padding:3px;
-	top:-65px; 
-	left:15px; }
+	top:-82px; 
+	left:-100px; }
 .toDisplayBasic7Retroactive {
 	display:none;
 	position:absolute; 		
@@ -38,8 +38,9 @@ a.kinda-link:hover { cursor: pointer; }
 	border-color:darkgrey;
 	padding:3px;
 	top:-85px; 
-	left:0px;
-	font-size:6px;}
+	left:-100px;
+	font-size:6px;
+	max-width:350px;}
 .toDisplayBadgePopupOneLink {
 	display:none;
 	position:absolute; 		
@@ -87,7 +88,7 @@ a.kinda-link:hover { cursor: pointer; }
 	border-color:darkgrey;
 	padding:3px;
 	top:-53px; 
-	left:0px; }
+	left:-100px; }
 .toDisplayCommentaries {
 	display:none;
 	position:absolute; 		
@@ -99,7 +100,7 @@ a.kinda-link:hover { cursor: pointer; }
 	border-color:darkgrey;
 	padding:3px;
 	top:-47px; 
-	left:13px; }
+	left:-40px; }
 .toDisplayRepDetails {
 	display:none;
 	position:absolute; 		
