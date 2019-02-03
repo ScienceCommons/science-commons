@@ -14,6 +14,7 @@ a.kinda-link:hover { cursor: pointer; }
 .popUpOnHover:hover span.toDisplayBadgePopup2StudiesArticleLevel { display:block; }
 .popUpOnHover:hover span.toDisplayBadgePopup2StudiesRSArticleLevel { display:block; }
 .popUpOnHover:hover span.toDisplayCommentaries { display:block; }
+.popUpOnHover:hover span.toDisplayRepDetails { display:block; }
 .toDisplayBasic4Submission {
 	display:none;
 	position:absolute; 
@@ -88,17 +89,31 @@ a.kinda-link:hover { cursor: pointer; }
 	top:-53px; 
 	left:0px; }
 .toDisplayCommentaries {
-		display:none;
-		position:absolute; 		
-		z-index:9998;
-		border:1px;
-		background-color:white;
-		border-style:solid;
-		border-width:1px;
-		border-color:darkgrey;
-		padding:3px;
-		top:-47px; 
-		left:13px; }	
+	display:none;
+	position:absolute; 		
+	z-index:9998;
+	border:1px;
+	background-color:white;
+	border-style:solid;
+	border-width:1px;
+	border-color:darkgrey;
+	padding:3px;
+	top:-47px; 
+	left:13px; }
+.toDisplayRepDetails {
+	display:none;
+	position:absolute; 		
+	z-index:9998;
+	border:1px;
+	background-color:white;
+	border-style:solid;
+	border-width:1px;
+	border-color:darkgrey;
+	padding:3px;
+	top:15px; 
+	left:5px;
+	min-width:250px;
+	max-width:300px;}
 a.black:link, a.black:visited, a.black:hover, a.black:active {
 	color: white;
 	text-decoration: none;
