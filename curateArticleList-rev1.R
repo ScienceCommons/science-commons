@@ -172,13 +172,26 @@ articleTypeLabels <- function(article.type, prereg.type, prereg.URL, rep.num, or
   }
   else if (toString(article.type)=="replication") {
     if (toString(prereg.type)=="preregplusrr") {
-      return (HTML(paste0("<span class='label label-info-brown' title='Article reports ", NA.to.blank(trimws(rep.num)), " replications of ",
-                          NA.to.blank(trimws(original.study)), " ", NA.to.blank(trimws(target.effects)), "'>Replication <span class='badge badge-repnum'>", trimws(rep.num), 
-                          "</span></span>", RR.label(prereg.URL) )))
+      return (HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
+													<span class='label label-info-brown'>Replication <span class='badge badge-repnum'>", NA.to.blank(trimws(rep.num)), "</span></span> 
+                          <span class='toDisplayRepDetails popUpStyle'>
+                          <span style='font-size:12px;'>Article reports ", NA.to.blank(trimws(rep.num)), " replications of ", 
+                          NA.to.blank(trimws(original.study)), " ", NA.to.blank(trimws(target.effects)), "</span>
+                          <br><br>
+                          <span style='font-size:10px;color:gray;'>A replication is a study that uses a methodology that is 'close' or 'very close' 
+                          to a previous study (see <a href='http://curatescience.org/logos/replication-taxonomy-v4_small.png' target='_blank'>replication taxonomy</a> for details).
+                          </span></span></div>", RR.label(prereg.URL) )))
     }
     else {
-      return (HTML(paste0("<span class='label label-info-brown' title='Article reports ", NA.to.blank(trimws(rep.num)), " replications of ",
-                          NA.to.blank(trimws(original.study)), " ", NA.to.blank(trimws(target.effects)), "'>Replication <span class='badge badge-repnum'>", trimws(rep.num), "</span></span>"))) }
+      return (HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
+													<span class='label label-info-brown'>Replication <span class='badge badge-repnum'>", NA.to.blank(trimws(rep.num)), "</span></span> 
+                          <span class='toDisplayRepDetails popUpStyle'>
+                          <span style='font-size:12px;'>Article reports ", NA.to.blank(trimws(rep.num)), " replications of ", 
+                          NA.to.blank(trimws(original.study)), " ", NA.to.blank(trimws(target.effects)), "</span>
+                          <br><br>
+                          <span style='font-size:10px;color:gray;'>A replication is a study that uses a methodology that is 'close' or 'very close' 
+to a previous study (see <a href='http://curatescience.org/logos/replication-taxonomy-v4_small.png' target='_blank'>replication taxonomy</a> for details).
+</span></span></div>"))) }
     }
 }
 
@@ -499,7 +512,7 @@ commentaries.label <- function(commentaries.URLs) {
                        lengths(URLs.list), "</span></span> 
                        <span class='toDisplayCommentaries popUpStyle' style='padding-left:5px;white-space:nowrap;'>
                        Commentaries about this article: 
-                       <ul>"
+                       <ul style='font-size:12px;'>"
                        , comment.list, "</ul></span></div>")))
   }
 }
@@ -561,10 +574,13 @@ getArticleListMetaData <- function (article.list.path) {
     return(article.table) }
 }
 
-article.list.path <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=556377376&single=true&output=csv'
+article.list.path.LC <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=556377376&single=true&output=csv'
+article.list.path.JR <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=1068229117&single=true&output=csv'
+article.list.path.EL <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=1392414301&single=true&output=csv'
+article.list.path.DL <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=1555838160&single=true&output=csv'
 #article.list.path <- 'C:/Users/Etienne LeBel/Google Drive/Curate Science/website/science-commons-alpha/author-article-list-meta-data/lorne.campbell.csv'
 
-output.file.path = "C:/Users/Etienne LeBel/Google Drive/webpage/live/public"
+output.file.path = "C:/Users/Etienne LeBel/Google Drive/Curate Science/website/science-commons-alpha/author"
 
-curateArticleList (getArticleListMetaData(article.list.path), yearHeadings = FALSE, cardWidth = 550, includeDOILinks = TRUE, 
+curateArticleList (getArticleListMetaData(article.list.path.DL), yearHeadings = FALSE, cardWidth = 550, includeDOILinks = TRUE, 
                    articleWidgetBorder=FALSE, cardHoverEmphasis=TRUE, output.file.path) 
