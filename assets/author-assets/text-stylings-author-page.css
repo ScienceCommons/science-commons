@@ -8,12 +8,14 @@ a.kinda-link:hover { cursor: pointer; }
 	}
 .popUpOnHover { position:relative; }
 .popUpOnHover:hover span.toDisplayBasic4Submission { display:block; }
+.popUpOnHover:hover span.toDisplayBasic4Retroactive { display:block; }
 .popUpOnHover:hover span.toDisplayBasic7Retroactive { display:block; }
 .popUpOnHover:hover span.toDisplayBadgePopupOneLink { display:block; }
 .popUpOnHover:hover span.toDisplayBadgePopupOneLinkPrereg { display:block; }
 .popUpOnHover:hover span.toDisplayBadgePopupTwoLinks { display:block; }
 .popUpOnHover:hover span.toDisplayBadgePopup2StudiesArticleLevel { display:block; }
 .popUpOnHover:hover span.toDisplayBadgePopup2StudiesRSArticleLevel { display:block; }
+.popUpOnHover:hover span.toDisplayBadgePopup2StudiesArticleLevelPrereg { display:block; }
 .popUpOnHover:hover span.toDisplayCommentaries { display:block; }
 .popUpOnHover:hover span.toDisplayRepDetails { display:block; }
 .popUpOnHover:hover span.toDisplayReplicatesDetails { display:block; }
@@ -28,8 +30,20 @@ a.kinda-link:hover { cursor: pointer; }
 	border-width:1px;
 	border-color:darkgrey;
 	padding:3px;
-	top:-82px; 
-	left:-100px; }
+	left:-100px;
+	top:-82px; }
+.toDisplayBasic4Retroactive {
+	display:none;
+	position:absolute; 
+	z-index:9998;
+	border:1px;
+	background-color:white;
+	border-style:solid;
+	border-width:1px;
+	border-color:darkgrey;
+	padding:3px;
+	left:-100px;
+	top:-100px;}
 .toDisplayBasic7Retroactive {
 	display:none;
 	position:absolute; 		
@@ -91,6 +105,18 @@ a.kinda-link:hover { cursor: pointer; }
 	border-color:darkgrey;
 	padding:3px;
 	top:-79px; 
+	left:0px; }
+.toDisplayBadgePopup2StudiesArticleLevelPrereg {
+	display:none;
+	position:absolute; 		
+	z-index:9998;
+	border:1px;
+	background-color:white;
+	border-style:solid;
+	border-width:1px;
+	border-color:darkgrey;
+	padding:3px;
+	top:-107px; 
 	left:0px; }
 .toDisplayBadgePopup2StudiesRSArticleLevel {
 	display:none;
