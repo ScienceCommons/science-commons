@@ -371,9 +371,12 @@
 		margin-bottom:20px;
 	}
 	.team {margin-top:10px;}
-	p.question {font-weight:600;}
+	p.question {
+		font-weight:600;
+		line-height:19px;}
 	p.answer {color:grey;
-			padding-left: 22px;}
+			padding-left: 22px;
+			line-height:19px;}
 	.FAQ-headings {
 		font-weight:600;
 		color:CornflowerBlue;	}
