@@ -263,7 +263,7 @@ a.grey:link, a.grey:visited, a.grey:hover, a.grey:active {
 	line-height:8px;
 	background-color:white;}
 .label {
-	opacity:.3;
+	opacity:.4;
 	filter: alpha(opacity=30); /* For IE8 and earlier */
 	color:white;
 	padding: .3em .45em .3em; 
@@ -307,8 +307,8 @@ p.article-type {
 }
 .pdf-icon-second-row { margin-top:8px;}
 .transparent {
-	opacity: 0.29;
-	filter: alpha(opacity=29); /* For IE8 and earlier */ }
+	opacity: 0.45;
+	filter: alpha(opacity=45); /* For IE8 and earlier */ }
 .semi-transparent {
 	opacity: 0.75;
 	filter: alpha(opacity=75); /* For IE8 and earlier */ }	
@@ -401,7 +401,9 @@ p.article-type {
 	line-height:15px;
 	opacity:.50;
 	filter: alpha(opacity=50); } /* For IE8 and earlier */
-.full-text { opacity:.4;}
+.full-text { 
+	opacity:.55;
+	filter: alpha(opacity=55); } /* For IE8 and earlier */
 .transparency-line { 
 	margin-top:4px; 
 	display:inline-block;
