@@ -9,13 +9,13 @@ curateArticleList <- function(articleList, yearHeadings = FALSE, cardWidth = 550
                               articleWidgetBorder=FALSE, cardHoverEmphasis=TRUE, output.file.path) {
 
     incrementalString = ""
-    headerString <- HTML(paste0("<div class='widget-container' style='margin-bottom:50px;'>
-        						    <div class='article-list-heading' style='margin-top:5px;margin-bottom:25px;'>Articles 
-          						    <a href='http://curatescience.org' title='Powered by CurateScience.org'><img src='../logos/author-logos/CS-logo-powered-by-logo.png'
-                            style='max-width:90px;padding-bottom:2px;'></a>
-          						  </div>", "\n"))
+    #headerString <- HTML(paste0("<div class='widget-container' style='margin-bottom:50px;'>
+    #    						    <div class='article-list-heading' style='margin-top:5px;margin-bottom:25px;'>Articles 
+    #      						    <a href='http://curatescience.org' title='Powered by CurateScience.org'><img src='../logos/author-logos/CS-logo-powered-by-logo.png'
+    #                        style='max-width:90px;padding-bottom:2px;'></a>
+    #      						  </div>", "\n"))
     
-    incrementalString = HTML(paste0(incrementalString , headerString))
+    #incrementalString = HTML(paste0(incrementalString , headerString))
     
     #STEP 2: sort article list
     #will sort/categorize peer-reviewed vs. working paper later
@@ -23,8 +23,8 @@ curateArticleList <- function(articleList, yearHeadings = FALSE, cardWidth = 550
     
     #STEP 3: Genereat HTML for each articles (& concatenate incrementally)
     articleListString = ""
-    #for (i in 1:nrow(articleList)) {
-    for (i in 12:12) {
+    for (i in 1:nrow(articleList)) {
+    #for (i in 1:12) {
       #calling by header names so still works if column order changes in CSV file
       articleListString = HTML(paste0(articleListString , create.article.card.HTML(authors = articleList[i,"authors"],
                                                                                    pub.year = articleList[i,"pub.year"],
@@ -60,14 +60,15 @@ curateArticleList <- function(articleList, yearHeadings = FALSE, cardWidth = 550
                                                                                    funding.sources = articleList[i,"funding.sources"],
                                                                                    peer.review.editor = articleList[i,"peer.review.editor"],
                                                                                    peer.reviewers = articleList[i,"peer.reviewers"],
-                                                                                   peer.reviews.URL = articleList[i,"peer.reviews.URL"])))
+                                                                                   peer.reviews.URL = articleList[i,"peer.reviews.URL"],
+                                                                                   addition.date = articleList[i,"addition.date"])))
     }
     incrementalString = HTML(paste0(incrementalString , articleListString))
     
     
     #STEP 4: Closing tags and final concatenation
-    closingTags = HTML("</div>")
-    incrementalString = HTML(paste0(incrementalString , closingTags))
+    #closingTags = HTML("</div>")
+    #incrementalString = HTML(paste0(incrementalString , closingTags))
     
     if (output.file.path != "") {
       cat(iconv(incrementalString, to="UTF-8"), file=paste0(output.file.path, "/article-list-widget.html"))
@@ -78,16 +79,13 @@ curateArticleList <- function(articleList, yearHeadings = FALSE, cardWidth = 550
 
 
 
-
-
-
 create.article.card.HTML <- function(authors,	pub.year, article.title, journal.name, DOI, article.PDF.URL, PDF.views, PDF.downloads, 
                                      PDF.citations,	article.HTML.URL,	HTML.views,	article.preprint.URL,	preprint.views,	preprint.downloads,
                                      metrics.date, prereg.type,	prereg.URL,	open.mat.URL,	open.data.URL, open.code.URL,	rs.type,
                                      disclosure.date,	article.type,	rep.num, original.study,	target.effects,	commentaries.URLs,
                                      abstract.text,	keywords,	author.contributions,	competing.interests,	funding.sources,	peer.review.editor,
-                                     peer.reviewers, peer.reviews.URL) {
-  preCard = HTML(paste0("<div class='demo-card-wide mdl-card mdl-shadow--2dp' id='", getArticleUniqueID(authors, DOI), "'>
+                                     peer.reviewers, peer.reviews.URL, addition.date) {
+  cardString = HTML(paste0("<tr><td><div class='demo-card-wide mdl-card mdl-shadow--2dp'> <a class='anchor' id='", getArticleUniqueID(authors, DOI), "'></a>
                       <div class='mdl-card__supporting-text'>",
                           fullTextComponents(article.PDF.URL, PDF.views, PDF.downloads,	PDF.citations, article.HTML.URL, HTML.views, 
                                              article.preprint.URL, preprint.views, preprint.downloads, metrics.date),
@@ -118,14 +116,23 @@ create.article.card.HTML <- function(authors,	pub.year, article.title, journal.n
 openPeerReviewHTML(peer.reviews.URL), "</div>
           											</div>
         										</div>
-      									</div>"
-      											))
+      									</div> <div class='addition-date-text'>Added: ", addition.date, "</div>
+</div></div>
+</td>", tags$td(rsFilterText(rs.type)), tags$td(omFilterText(open.mat.URL)), tags$td(preregFilterText(prereg.type)),
+ tags$td(odFilterText(open.data.URL)), tags$td(rcFilterText(open.code.URL)), tags$td(articleTypeFilterText(article.type)),
+"</tr>"))
   
-  postCard = HTML(paste0("</div></div>", "\n"))
-  cardString = HTML(paste0(preCard,postCard))
+  #postCard = HTML(paste0("</div></div>", "\n"))
+  #cardString = HTML(paste0(preCard,postCard))
   return(cardString)
 }
 
+rsFilterText <- function(rs.type) { if (toString(rs.type) != "NA") { return("rs") } }
+omFilterText <- function(open.mat.URL) { if (toString(open.mat.URL) != "NA") { return("om") } }
+preregFilterText <- function(prereg.type) { if (toString(prereg.type) != "NA") { return(trimws(prereg.type)) } }
+odFilterText <- function(open.data.URL) { if (toString(open.data.URL) != "NA") { return("od") } }
+rcFilterText <- function(open.code.URL) { if (toString(open.code.URL) != "NA") { return("rc") } }
+articleTypeFilterText <- function(article.type) { if (toString(article.type) != "NA") { return(trimws(article.type)) } }
 
 getArticleUniqueID <- function(authors, DOI) {
   #article DOI or space-stripped-authors if no DOI
@@ -142,18 +149,16 @@ articleTypeLabels <- function(article.type, prereg.type, prereg.URL, rep.num, or
     return ("<span class='label label-info-pecan' title='Article reports a reanalysis of previously published studies'>Reanalysis</span>")
   }
   else if (toString(article.type)=="reanalysis - reproducibility") {
-    return ("<span class='label label-info-pecan' title='Article reports an analytic reproducibility reanalysis of a previously published article
-            (repeating the same statistical analyses on existing data)'>Reanalysis - Reproducibility</span>")
+    return ("<span class='label label-info-pecan' title='Article reports an analytic reproducibility reanalysis of a previously published article (repeating the same statistical analyses on existing data)'>Reanalysis - Reproducibility</span>")
   }
   else if (toString(article.type)=="reanalysis - robustness") {
-    return ("<span class='label label-info-pecan' title='Article reports a robustness reanalysis of a previously published article 
-            (conducting different statistical analyses on existing data)'>Reanalysis - Robustness</span>")
+    return ("<span class='label label-info-pecan' title='Article reports a robustness reanalysis of a previously published article (conducting different statistical analyses on existing data)'>Reanalysis - Robustness</span>")
   }
-  else if (toString(article.type)=="meta-analysis") {
+  else if (toString(article.type)=="reanalysis - meta-analysis") {
     return ("<span class='label label-info-pecan'
-            title='Article reports a (traditional) meta-analysis of a target effect/phenomenon.>Reanalysis - Meta-analysis</span>")
+            title='Article reports a (traditional) meta-analysis of a target effect/phenomenon'>Reanalysis - Meta-analysis</span>")
   }
-  else if (toString(article.type)=="meta-research") {
+  else if (toString(article.type)=="reanalysis - meta-research") {
     return ("<span class='label label-info-pecan' 
             title='Article reports a reanalysis of results from previously published studies (meta-research).'>Reanalysis - Meta-research</span>")
   }
@@ -220,7 +225,7 @@ PDF.icon.impact <- function(article.PDF.URL, PDF.views, PDF.downloads,	PDF.citat
     impact.div = HTML(paste0("<div class='impact-info'>", PDF.views.HTML(PDF.views, metrics.date), PDF.downloads.HTML(PDF.downloads, metrics.date), 
                                 PDF.citations.HTML(PDF.citations, metrics.date), "</div>"))
     return(HTML(paste0(impact.div, " <a href='",article.PDF.URL,"' target='_blank' class='black' title='View PDF of this article (postprint).'>
-                       <img src='../logos/author-logos/sprite-icons/pdf.png' class='pdf-icon transparent full-text'></a> "))) }
+                       <img src='logos/author-logos/sprite-icons/pdf.png' class='pdf-icon transparent full-text'></a> "))) }
 }
 article.HTML.label.impact <- function(article.HTML.URL, HTML.views, metrics.date, article.PDF.URL) {
   if(toString(article.HTML.URL) != "NA") {
@@ -325,11 +330,11 @@ prereg.badge.HTML <- function(prereg.type, prereg.URL, article.type)
 { if (toString(prereg.type) == "preregplusrr") #is an RR
   { if (toString(prereg.URL) != "NA") #is an RR *and* pre-reg protocol available
     { return(HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
-                           <img src='../logos/author-logos/sprite-icons/preregistered-plus-available.png' class='shrunk-20 transparent'>
-                           <span class='toDisplayBadgePopupOneLink popUpStyle'>
+                           <img src='logos/author-logos/sprite-icons/preregistered-plus-available.png' class='shrunk-20 transparent'>
+                           <span class='toDisplayBadgePopupOneLinkPrereg popUpStyle'>
                            <div style='min-width:200px;white-space:normal;'>
-                           <span class='transp-popup-main-heading'>Preregistration</span>
-                           <br>
+                           <span class='transp-popup-main-heading'>Preregistered protocol</span>
+                           <div class='prereg-type-text'>Preregistered study design + analyses</div>
                            <a href='",prereg.URL,"' target='_blank'> <i class='fas fa-link'></i> ", 
                          contentProviderIcon(prereg.URL), " <i class='fas fa-external-link-alt'></i></a>
                            </div>
@@ -338,17 +343,17 @@ prereg.badge.HTML <- function(prereg.type, prereg.URL, article.type)
     }  
       else #RR, but pre-reg protocol unavailable
       { return(HTML("<a title='Registered Report preregistered study protocol not (yet) publicly available'>
-                    <img src='../logos/author-logos/sprite-icons/preregistered-plus-available.png' class='shrunk-20 transparent'></a> "))
+                    <img src='logos/author-logos/sprite-icons/preregistered-plus-available.png' class='shrunk-20 transparent'></a> "))
       }
     }
   else #not an RR (but prereg or preregplus)
   { if (toString(prereg.type) == "preregplus") #pre-registered study design + analytic plans
   { return(HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
-                         <img src='../logos/author-logos/sprite-icons/preregistered-plus-available.png' class='shrunk-20 transparent'>
-                         <span class='toDisplayBadgePopupOneLink popUpStyle'>
+                         <img src='logos/author-logos/sprite-icons/preregistered-plus-available.png' class='shrunk-20 transparent'>
+                         <span class='toDisplayBadgePopupOneLinkPrereg popUpStyle'>
                          <div style='min-width:200px;white-space:normal;'>
-                         <span class='transp-popup-main-heading'>Preregistration</span>
-                         <br>
+                         <span class='transp-popup-main-heading'>Preregistered protocol</span>
+                         <div class='prereg-type-text'>Preregistered study design + analyses</div>
                          <a href='",prereg.URL,"' target='_blank'> <i class='fas fa-link'></i> ", 
                          contentProviderIcon(prereg.URL), " <i class='fas fa-external-link-alt'></i></a>
                          </div>
@@ -357,11 +362,11 @@ prereg.badge.HTML <- function(prereg.type, prereg.URL, article.type)
   }
     else if (toString(prereg.type) == "prereg")  #pre-registered study design ONLY
     { return(HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
-                           <img src='../logos/author-logos/sprite-icons/preregistered-available.png' class='shrunk-20 transparent'>
-                           <span class='toDisplayBadgePopupOneLink popUpStyle'>
+                           <img src='logos/author-logos/sprite-icons/preregistered-available.png' class='shrunk-20 transparent'>
+                           <span class='toDisplayBadgePopupOneLinkPrereg popUpStyle'>
                            <div style='min-width:200px;white-space:normal;'>
-                           <span class='transp-popup-main-heading'>Preregistration</span>
-                           <br>
+                           <span class='transp-popup-main-heading'>Preregistered protocol</span>
+                           <div class='prereg-type-text'>Preregistered study design</div>
                            <a href='",prereg.URL,"' target='_blank'> <i class='fas fa-link'></i> ", 
                          contentProviderIcon(prereg.URL), " <i class='fas fa-external-link-alt'></i></a>
                            </div>
@@ -369,8 +374,8 @@ prereg.badge.HTML <- function(prereg.type, prereg.URL, article.type)
                            </div>")))
     }
     else if (toString(article.type) != "conceptual" & toString(article.type) != "commentary")
-      #not an RR, nor pre-registered (nor conceptual or commentary)
-    { return(HTML("<a title='Preregistration information is not available'><img src='../logos/author-logos/sprite-icons/preregistered-unavailable.png' 
+      #not an RR, nor pre-registered (nor conceptual nor commentary)
+    { return(HTML("<a title='Preregistration information is not available'><img src='logos/author-logos/sprite-icons/preregistered-unavailable.png' 
                   class='shrunk-20'></a>"))
     }
     }
@@ -378,7 +383,7 @@ prereg.badge.HTML <- function(prereg.type, prereg.URL, article.type)
 materials.badge.HTML <- function(open.mat.URL, article.type) {
   if (toString(open.mat.URL) != "NA") {
     return(HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
-													<img src='../logos/author-logos/sprite-icons/materials-available.png' class='shrunk-20 transparent'>
+													<img src='logos/author-logos/sprite-icons/materials-available.png' class='shrunk-20 transparent'>
 													<span class='toDisplayBadgePopupOneLink popUpStyle'>
 														<div style='min-width:200px;white-space:normal;'>
 															<span class='transp-popup-main-heading'>Public Study Materials</span>
@@ -390,13 +395,13 @@ contentProviderIcon(open.mat.URL), " <i class='fas fa-external-link-alt'></i></a
 												</div>"))) }
   else if (toString(article.type) != "conceptual" & toString(article.type) != "commentary") {
     return(HTML("<a title='Public study materials information is not available'>
-                <img src='../logos/author-logos/sprite-icons/materials-unavailable.png' class='shrunk-20'></a> "))
+                <img src='logos/author-logos/sprite-icons/materials-unavailable.png' class='shrunk-20'></a> "))
   }
 }
 data.badge.HTML <- function(open.data.URL, article.type) {
   if (toString(open.data.URL) != "NA") {
     return(HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
-													<img src='../logos/author-logos/sprite-icons/data-available.png' class='shrunk-20 transparent'>
+													<img src='logos/author-logos/sprite-icons/data-available.png' class='shrunk-20 transparent'>
                        <span class='toDisplayBadgePopupOneLink popUpStyle'>
                        <div style='min-width:200px;white-space:normal;'>
                        <span class='transp-popup-main-heading'>Public Data</span>
@@ -408,13 +413,13 @@ contentProviderIcon(open.data.URL), " <i class='fas fa-external-link-alt'></i></
                        </div>"))) }
   else if (toString(article.type) != "conceptual" & toString(article.type) != "commentary") {
     return(HTML("<a title='Public data information is not available'>
-                <img src='../logos/author-logos/sprite-icons/data-unavailable.png' class='shrunk-20'></a> "))
+                <img src='logos/author-logos/sprite-icons/data-unavailable.png' class='shrunk-20'></a> "))
   }
 }
 code.badge.HTML <- function(open.code.URL, article.type) {
   if (toString(open.code.URL) != "NA") {
     return(HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
-													<img src='../logos/author-logos/sprite-icons/code-available.svg' class='shrunk-22 transparent'>
+													<img src='logos/author-logos/sprite-icons/code-available.svg' class='shrunk-22 transparent'>
 													<span class='toDisplayBadgePopupOneLink popUpStyle'>
 														<div style='min-width:200px;white-space:normal;'>
 															<span class='transp-popup-main-heading'>Public Code</span>
@@ -425,18 +430,18 @@ contentProviderIcon(open.code.URL), " <i class='fas fa-external-link-alt'></i></
 													</span>
 												</div>")))}
   else if (toString(article.type) != "conceptual" & toString(article.type) != "commentary") {
-    return(HTML("<a title='Reproducible code information is not available'><img src='../logos/author-logos/sprite-icons/code-unavailable.svg' 
+    return(HTML("<a title='Reproducible code information is not available'><img src='logos/author-logos/sprite-icons/code-unavailable.svg' 
                 class='shrunk-22 transparent'></a>"))
   }
 }
 
 contentProviderIcon <- function (content.URL) {
-  if ( grepl("osf",content.URL) == TRUE | grepl("psyarxiv",content.URL) == TRUE) {
+  if ( grepl("osf",content.URL) == TRUE | grepl("psyarxiv",content.URL) == TRUE | grepl("openscienceframework",content.URL) == TRUE ) {
     return ( "<i class='ai ai-osf ai-2x small-icon'></i>") }
   else if ( grepl("figshare",content.URL) == TRUE) {
     return ( "<i class='ai ai-figshare ai-2x small-icon'></i>") }
   else if ( grepl("ssrn",content.URL) == TRUE) {
-    return ( "<img src='../logos/author-logos/sprite-icons/SSRN-logo.png' class='SSRN-logo'>") }
+    return ( "<img src='logos/author-logos/sprite-icons/SSRN-logo.png' class='SSRN-logo'>") }
 }
     
 rs.badge.HTML <- function(rs.type, disclosure.date, article.type) {
@@ -444,12 +449,12 @@ rs.badge.HTML <- function(rs.type, disclosure.date, article.type) {
     return(HTML(basic4.at.subm.HTML))}
   else if (toString(rs.type) == "basic4.retro") {
     return(HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
-                       <img src='../logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-20 transparent'>
-                       <span class='toDisplayBasic4Submission popUpStyle' style='padding-left:5px;white-space:nowrap;'>
+                       <img src='logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-20 transparent'>
+                       <span class='toDisplayBasic4Retroactive popUpStyle' style='padding-left:5px;white-space:nowrap;'>
                        <span class='transp-popup-main-heading'>Reporting Standards</span><br>                         
                        <span style='font-size:10px;font-weight:600;color:gray;'>Study complies with the 
                        <a href='http://psychdisclosure.org' target='_blank'>Basic 4 (retroactive)</a> 
-                       <img src='../logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-16 transparent'> reporting standard:</span>
+                       <img src='logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-16 transparent'> reporting standard:</span>
                        <ol>
                        <li><strong>Excluded data (subjects/observations):</strong> Full details reported in article.</li>
                        <li><strong>Experimental conditions:</strong> Full details reported in article.</li>
@@ -465,13 +470,13 @@ rs.badge.HTML <- function(rs.type, disclosure.date, article.type) {
   }
   else if (toString(rs.type) == "MARS") {
     return(HTML(paste0("<div style='display:inline;' class='popUpOnHover'>
-                       <img src='../logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-20 transparent'>
-                       <span class='toDisplayMARS popUpStyle' style='padding-left:5px;white-space:nowrap;'>
+                       <img src='logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-20 transparent'>
+                       <span class='toDisplayMARS popUpStyle' style='padding-left:5px;'>
                        <span class='transp-popup-main-heading'>Reporting Standards</span><br>
                        <span style='font-size:10px;font-weight:600;color:gray;'>Meta-analysis complies with the 
                        <a href='http://www.apa.org/pubs/journals/releases/amp-amp0000191.pdf' target='_blank'>MARS</a> 
-                       <img src='../logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-16 transparent'> reporting standard: 
-                       <ul>
+                       <img src='logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-16 transparent'> reporting standard: 
+                       <ul style='font-size:10px;line-height:normal;'>
                        <li><a href='http://www.apa.org/pubs/journals/releases/amp-amp0000191.pdf' target='_blank'>
                        APA's Meta-Analysis Reporting Standards (MARS; Table 9)</a> 
                        </li></span>
@@ -481,17 +486,17 @@ rs.badge.HTML <- function(rs.type, disclosure.date, article.type) {
   } 
   else if (toString(article.type) != "conceptual" & toString(article.type) != "commentary") {
     return(HTML(" <a title='Compliance to reporting standard information is not available'>
-                <img src='../logos/author-logos/sprite-icons/disclosure-unavailable.png' class='shrunk-20'></a>"))
+                <img src='logos/author-logos/sprite-icons/disclosure-unavailable.png' class='shrunk-20'></a>"))
   }
   }
 
 basic4.at.subm.HTML <- "<div style='display:inline;' class='popUpOnHover'>
-<img src='../logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-20 transparent'>
+<img src='logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-20 transparent'>
 <span class='toDisplayBasic4Submission popUpStyle' style='padding-left:5px;white-space:nowrap;'>
 <span class='transp-popup-main-heading'>Reporting Standards</span><br>
 <span style='font-size:10px;font-weight:600;color:gray;'>Study complies with the 
 <a href='https://www.psychologicalscience.org/publications/psychological_science/ps-submissions#DISC' target='_blank'>
-Basic 4 (at submission)</a> <img src='../logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-16 transparent'> reporting standard:</span>
+Basic 4 (at submission)</a> <img src='logos/author-logos/sprite-icons/disclosure-available.png' class='shrunk-16 transparent'> reporting standard:</span>
 <ol>
 <li><strong>Excluded data (subjects/observations):</strong> Full details reported in article.</li>
 <li><strong>Experimental conditions:</strong> Full details reported in article.</li>
@@ -512,7 +517,7 @@ commentaries.label <- function(commentaries.URLs) {
                        lengths(URLs.list), "</span></span> 
                        <span class='toDisplayCommentaries popUpStyle' style='padding-left:5px;white-space:nowrap;'>
                        Commentaries about this article: 
-                       <ul style='font-size:12px;'>"
+                       <ul style='font-size:12px;line-height:normal;'>"
                        , comment.list, "</ul></span></div>")))
   }
 }
@@ -574,13 +579,10 @@ getArticleListMetaData <- function (article.list.path) {
     return(article.table) }
 }
 
-article.list.path.LC <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=556377376&single=true&output=csv'
-article.list.path.JR <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=1068229117&single=true&output=csv'
-article.list.path.EL <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=1392414301&single=true&output=csv'
-article.list.path.DL <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=1555838160&single=true&output=csv'
+article.list.path <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8VCNAmiqCZ-Cr4iKZqxwofhVwO3yKLVX8ITOYtRvbRWYT7YAQbk7pAiU4-k8OBevN8Qx_VkO9gBuY/pub?gid=994838614&single=true&output=csv'
 #article.list.path <- 'C:/Users/Etienne LeBel/Google Drive/Curate Science/website/science-commons-alpha/author-article-list-meta-data/lorne.campbell.csv'
 
 output.file.path = "C:/Users/Etienne LeBel/Google Drive/Curate Science/website/science-commons-alpha/author"
 
-curateArticleList (getArticleListMetaData(article.list.path.LC), yearHeadings = FALSE, cardWidth = 550, includeDOILinks = TRUE, 
+curateArticleList (getArticleListMetaData(article.list.path), yearHeadings = FALSE, cardWidth = 550, includeDOILinks = TRUE, 
                    articleWidgetBorder=FALSE, cardHoverEmphasis=TRUE, output.file.path) 
